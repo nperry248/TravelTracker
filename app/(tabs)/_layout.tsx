@@ -2,6 +2,8 @@
 
 import { Tabs } from 'expo-router';
 
+
+// Navigation
 export default function TabsLayout() {
   return (
     <Tabs
