@@ -3,6 +3,7 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import Entypo from '@expo/vector-icons/Entypo';
 import { useRouter, usePathname } from 'expo-router';
 import Colors from '../../../constants/Colors';
 
@@ -33,7 +34,7 @@ const NavBar = () => {
         <FontAwesome name="home" size={30} paddingBottom={10} color={getIconColor('/(tabs)')} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => router.push('/school')}>
-        <FontAwesome name="book" size={24} color={getIconColor('/school')} />
+        <Entypo name="chat" size={24} color={getIconColor('/school')} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => router.push('/media')}>
         <FontAwesome name="photo" size={24} color={getIconColor('/media')} />
