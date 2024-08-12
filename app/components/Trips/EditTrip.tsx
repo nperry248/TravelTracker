@@ -31,8 +31,12 @@ const EditTrip: React.FC<EditTripProps> = ({ trip, onUpdate, onCancel, onDelete 
   const [endDate, setEndDate] = useState<Date | null>(trip.enddate ? new Date(trip.enddate) : null);
   const [status, setStatus] = useState<'Ideated' | 'Planned' | 'Confirmed'>(trip.status);
   const [people, setPeople] = useState(trip.people);
-  const [transportation, setTransportation] = useState(trip.transportation);
-  const [accommodation, setAccommodation] = useState(trip.accommodation);
+  const [travelTo, setTravelTo] = useState('');
+  const [travelBack, setTravelBack] = useState('');
+  const [accommodation1, setAccommodation1] = useState('');
+  const [accommodation2, setAccommodation2] = useState('');
+  const [extraTravel, setExtraTravel] = useState('');
+  const [extraAccommodation, setExtraAccommodation] = useState('');
   const [notes, setNotes] = useState(trip.notes);
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
@@ -45,8 +49,12 @@ const EditTrip: React.FC<EditTripProps> = ({ trip, onUpdate, onCancel, onDelete 
       enddate: endDate ? endDate.toISOString().split('T')[0] : '',
       status,
       people,
-      transportation,
-      accommodation,
+      travelTo,
+      travelBack,
+      accommodation1,
+      accommodation2,
+      extraTravel,
+      extraAccommodation,
       notes
     };
     onUpdate(updatedTrip);
@@ -127,19 +135,47 @@ const EditTrip: React.FC<EditTripProps> = ({ trip, onUpdate, onCancel, onDelete 
         onChangeText={setPeople}
         placeholder="Enter people"
       />
-      <Text style={styles.label}>Transportation</Text>
+      <Text style={styles.label}>Travel Plans To</Text>
       <TextInput
         style={styles.input}
-        value={transportation}
-        onChangeText={setTransportation}
-        placeholder="Enter transportation URL"
+        value={travelTo}
+        onChangeText={setTravelTo}
+        placeholder="Enter primary travel details"
       />
-      <Text style={styles.label}>Accommodation</Text>
+      <Text style={styles.label}>Travel Plans Back</Text>
       <TextInput
         style={styles.input}
-        value={accommodation}
-        onChangeText={setAccommodation}
-        placeholder="Enter accommodation URL"
+        value={travelBack}
+        onChangeText={setTravelBack}
+        placeholder="Enter return travel details"
+      />
+      <Text style={styles.label}>Primary Accommodation</Text>
+      <TextInput
+        style={styles.input}
+        value={accommodation1}
+        onChangeText={setAccommodation1}
+        placeholder="Enter primary accommodation"
+      />
+      <Text style={styles.label}>Secondary Accommodation</Text>
+      <TextInput
+        style={styles.input}
+        value={accommodation2}
+        onChangeText={setAccommodation2}
+        placeholder="Enter secondary accommodation (if any)"
+      />
+      <Text style={styles.label}>Extra Transportation</Text>
+      <TextInput
+        style={styles.input}
+        value={extraTravel}
+        onChangeText={setExtraTravel}
+        placeholder="Enter extra transportation (if any)"
+      />
+      <Text style={styles.label}>Extra Accommodation</Text>
+      <TextInput
+        style={styles.input}
+        value={extraAccommodation}
+        onChangeText={setExtraAccommodation}
+        placeholder="Enter extra accommodation (if any)"
       />
       <Text style={styles.label}>Notes</Text>
       <TextInput

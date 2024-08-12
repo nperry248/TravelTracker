@@ -8,9 +8,10 @@ import { Trip } from '../../types';
 interface TripListProps {
   trips: Trip[];
   onEdit: (trip: Trip) => void;
+  onLogistics: (trip: Trip) => void; // New prop for logistics
 }
 
-const TripList: React.FC<TripListProps> = ({ trips, onEdit }) => {
+const TripList: React.FC<TripListProps> = ({ trips, onEdit, onLogistics }) => {
   return (
     <View style={styles.container}>
       {trips.map((trip) => (
@@ -21,10 +22,9 @@ const TripList: React.FC<TripListProps> = ({ trips, onEdit }) => {
           enddate={trip.enddate}
           status={trip.status}
           people={trip.people}
-          transportation={trip.transportation}
-          accommodation={trip.accommodation}
           notes={trip.notes}
           onEdit={() => onEdit(trip)}
+          onLogistics={() => onLogistics(trip)} // Pass logistics handler
         />
       ))}
     </View>

@@ -7,10 +7,11 @@ export interface Trip {
     enddate: string;
     status: 'Ideated' | 'Planned' | 'Confirmed';
     people: string;
-    transportation: string;
-    accommodation: string;
+    TravelTo: string,
+    TravelBack: string,
+    Accomodation1: string,
+    Accomodation2: string,
+    ExtraTravel: string,
+    ExtraAccomodation: string,
     notes: string;
   }
-
-
-  

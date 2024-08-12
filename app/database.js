@@ -2,7 +2,7 @@
 
 import * as SQLite from 'expo-sqlite';
 
-const db = SQLite.openDatabaseSync('TravelTracker.db');
+const db = SQLite.openDatabaseSync('TravelTrackerDB.db');
 
 export const initializeDatabase = () => {
   db.execAsync(
@@ -13,29 +13,33 @@ export const initializeDatabase = () => {
       enddate TEXT,
       status TEXT,
       people TEXT,
-      transportation TEXT,
-      accommodation TEXT,
+      TravelTo TEXT,
+      TravelBack TEXT,
+      Accomodation1 TEXT,
+      Accomodation2 TEXT,
+      ExtraTravel TEXT,
+      ExtraAccomodation TEXT,
       notes TEXT
     );`
   );
 };
 
 export const addTrip = async (trip) => {
-  const { title, startdate, enddate, status, people, transportation, accommodation, notes } = trip;
+  const { title, startdate, enddate, status, people, TravelTo, TravelBack, Accomodation1, Accomodation2, ExtraTravel, ExtraAccomodation, notes } = trip;
   const result = await db.runAsync(
-    `INSERT INTO trips (title, startdate, enddate, status, people, transportation, accommodation, notes)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
-    title, startdate, enddate, status, people, transportation, accommodation, notes
+    `INSERT INTO trips (title, startdate, enddate, status, people, TravelTo, TravelBack, Accomodation1, Accomodation2, ExtraTravel, ExtraAccomodation, notes)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+    title, startdate, enddate, status, people, TravelTo, TravelBack, Accomodation1, Accomodation2, ExtraTravel, ExtraAccomodation, notes
   );
   return result;
 };
 
 export const updateTrip = async (trip) => {
-  const { id, title, startdate, enddate, status, people, transportation, accommodation, notes } = trip;
+  const { id, title, startdate, enddate, status, people, TravelTo, TravelBack, Accomodation1, Accomodation2, ExtraTravel, ExtraAccomodation, notes } = trip;
   const result = await db.runAsync(
-    `UPDATE trips SET title = ?, startdate = ?, enddate = ?, status = ?, people = ?, transportation = ?, accommodation = ?, notes = ?
+    `UPDATE trips SET title = ?, startdate = ?, enddate = ?, status = ?, people = ?, TravelTo = ?, TravelBack = ?, Accomodation1 = ?, Accomodation2 = ?, ExtraTravel = ?, ExtraAccomodation = ?, notes = ?
      WHERE id = ?;`,
-    title, startdate, enddate, status, people, transportation, accommodation, notes, id
+    title, startdate, enddate, status, people, TravelTo, TravelBack, Accomodation1, Accomodation2, ExtraTravel, ExtraAccomodation, notes, id
   );
   return result;
 };
@@ -52,6 +56,5 @@ export const getTrips = async () => {
   const result = await db.getAllAsync(`SELECT * FROM trips;`);
   return result;
 };
-
 
 export default db;

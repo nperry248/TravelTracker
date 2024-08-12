@@ -5,6 +5,7 @@ import { View, StyleSheet, ScrollView, TouchableOpacity, Text } from 'react-nati
 import TripList from '../components/Trips/TripList';
 import AddTrip from '../components/Trips/AddTrip';
 import EditTrip from '../components/Trips/EditTrip';
+import Logistics from '../components/Trips/Logistics'; // Import Logistics component
 import { initializeDatabase, getTrips, addTrip, updateTrip, deleteTrip } from '../database';
 import { Trip } from '../types';
 import Header from '../components/Global/Header';
@@ -15,7 +16,9 @@ const TripsScreen = () => {
   const [trips, setTrips] = useState<Trip[]>([]);
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isViewingLogistics, setIsViewingLogistics] = useState(false); // New state for viewing logistics
   const [editTrip, setEditTrip] = useState<Trip | null>(null);
+  const [logisticsTrip, setLogisticsTrip] = useState<Trip | null>(null); // New state for current logistics
 
   useEffect(() => {
     initializeDatabase();
@@ -24,7 +27,6 @@ const TripsScreen = () => {
 
   const fetchTrips = async () => {
     const trips = await getTrips();
-    // Sort trips by start date
     const sortedTrips = trips.sort((a, b) => new Date(a.startdate).getTime() - new Date(b.startdate).getTime());
     setTrips(sortedTrips);
   };
@@ -32,11 +34,20 @@ const TripsScreen = () => {
   const handleAddTrip = () => {
     setIsAdding(true);
     setIsEditing(false);
+    setIsViewingLogistics(false);
   };
 
   const handleEditTrip = (trip: Trip) => {
     setEditTrip(trip);
     setIsEditing(true);
+    setIsAdding(false);
+    setIsViewingLogistics(false);
+  };
+
+  const handleLogistics = (trip: Trip) => {
+    setLogisticsTrip(trip);
+    setIsViewingLogistics(true);
+    setIsEditing(false);
     setIsAdding(false);
   };
 
@@ -66,20 +77,36 @@ const TripsScreen = () => {
   };
 
   const handleCancelAdd = () => {
-    fetchTrips();
     setIsAdding(false);
-  }
+  };
+
+  const handleCancelLogistics = () => {
+    setIsViewingLogistics(false);
+    setLogisticsTrip(null);
+  };
 
   return (
     <View style={styles.container}>
       <Header />
       <ScrollView>
-      <Text style={styles.pageTitle}>Your Upcoming Trips</Text>
+        <Text style={styles.pageTitle}>Your Upcoming Trips</Text>
         {isAdding && <AddTrip onSave={handleSaveNewTrip} onCancel={handleCancelAdd}/>}
         {isEditing && editTrip && <EditTrip trip={editTrip} onUpdate={handleUpdateTrip} onDelete={handleDeleteTrip} onCancel={handleCancelEdit} />}
-        {!isAdding && !isEditing && <TripList trips={trips} onEdit={handleEditTrip} />}
+        {isViewingLogistics && logisticsTrip && (
+          <Logistics
+            travelTo={logisticsTrip.TravelTo}
+            travelBack={logisticsTrip.TravelBack}
+            accommodation1={logisticsTrip.Accomodation1}
+            accommodation2={logisticsTrip.Accomodation2}
+            notes={logisticsTrip.notes}
+            onCancel={handleCancelLogistics}
+          />
+        )}
+        {!isAdding && !isEditing && !isViewingLogistics && (
+          <TripList trips={trips} onEdit={handleEditTrip} onLogistics={handleLogistics} />
+        )}
       </ScrollView>
-      {!isAdding && !isEditing && (
+      {!isAdding && !isEditing && !isViewingLogistics && (
         <TouchableOpacity style={styles.fab} onPress={handleAddTrip}>
           <Text style={styles.fabText}>+</Text>
         </TouchableOpacity>

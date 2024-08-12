@@ -12,10 +12,9 @@ interface TripCardProps {
   enddate: string;
   status: 'Ideated' | 'Planned' | 'Confirmed';
   people: string;
-  transportation: string;
-  accommodation: string;
   notes: string;
   onEdit: () => void;
+  onLogistics: () => void; // Add this prop
 }
 
 const getStatusColor = (status: string) => {
@@ -43,20 +42,11 @@ const TripCard: React.FC<TripCardProps> = ({
   enddate,
   status,
   people,
-  transportation,
-  accommodation,
   notes,
   onEdit,
+  onLogistics, // Add this prop
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-
-  const handleLinkPress = (url: string, type: string) => {
-    if (url.trim() === '') {
-      Alert.alert(`${type} Plan`, "No plan yet!");
-    } else {
-      Linking.openURL(url);
-    }
-  };
 
   return (
     <TouchableOpacity onPress={() => setIsExpanded(!isExpanded)}>
@@ -84,13 +74,10 @@ const TripCard: React.FC<TripCardProps> = ({
           <>
             <Text style={styles.detail}>Status: {status}</Text>
             <Text style={styles.detail}>With: {people}</Text>
-            <TouchableOpacity onPress={() => handleLinkPress(transportation, 'Transportation')}>
-              <Text style={styles.hyperlink}>Transportation</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleLinkPress(accommodation, 'Accommodation')}>
-              <Text style={styles.hyperlink}>Accommodation</Text>
-            </TouchableOpacity>
             <Text style={styles.detail}>Notes: {notes}</Text>
+            <TouchableOpacity onPress={onLogistics}>
+              <Text style={styles.logisticsLink}>View Logistics</Text>
+            </TouchableOpacity>
           </>
         )}
       </View>
@@ -138,11 +125,11 @@ const styles = StyleSheet.create({
   dropdownIcon: {
     marginLeft: 10,
   },
-  hyperlink: {
+  logisticsLink: {
     fontSize: 14,
     color: Colors.darkerBlue,
     textDecorationLine: 'underline',
-    marginBottom: 3,
+    marginTop: 10,
   },
 });
 

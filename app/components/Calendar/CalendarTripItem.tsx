@@ -11,8 +11,7 @@ interface Trip {
   enddate: string;
   status: "Ideated" | "Planned" | "Confirmed";
   people: string;
-  transportation: string;
-  accommodation: string;
+  logistic_id: number;
   notes: string;
 }
 

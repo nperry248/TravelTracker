@@ -19,7 +19,17 @@ const DashboardTrip: React.FC<DashboardTripProps> = ({ refresh }) => {
       const trips: Trip[] = await getTrips();
       const confirmedTrips = trips.filter(trip => trip.status === 'Confirmed');
       const sortedConfirmedTrips = confirmedTrips.sort((a, b) => new Date(a.startdate).getTime() - new Date(b.startdate).getTime());
-      setNextTrip(sortedConfirmedTrips[0]);
+      const next = sortedConfirmedTrips[0]
+
+
+      if (next) {
+        setNextTrip(next)
+      }
+      else {
+        setNextTrip(null);
+      }
+
+
     } catch (error) {
       console.log('Error fetching trips:', error);
     }
@@ -52,18 +62,36 @@ const DashboardTrip: React.FC<DashboardTripProps> = ({ refresh }) => {
       {nextTrip ? (
         <View style={styles.card}>
           <Text style={styles.eventTitle}>{nextTrip.title}</Text>
-          <Text>Dates: {formatDate(nextTrip.startdate)} - {formatDate(nextTrip.enddate)}</Text>
+          <Text>Dates: {`${formatDate(nextTrip.startdate)} - ${formatDate(nextTrip.enddate)}`}</Text>
           <Text>People: {nextTrip.people}</Text>
-          <TouchableOpacity onPress={() => handleLinkPress(nextTrip.transportation, 'Transportation')}>
-            <Text style={styles.hyperlink}>Transportation</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleLinkPress(nextTrip.accommodation, 'Accommodation')}>
-            <Text style={styles.hyperlink}>Accommodation</Text>
-          </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleLinkPress(nextTrip.TravelTo, 'Transportation')}>
+              <Text style={styles.hyperlink}>Travel To</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleLinkPress(nextTrip.TravelBack, 'Transportation')}>
+              <Text style={styles.hyperlink}>Travel Back</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleLinkPress(nextTrip.Accomodation1, 'Accommodation')}>
+              <Text style={styles.hyperlink}>Accommodation</Text>
+            </TouchableOpacity>
+            {nextTrip.Accomodation2 && (
+            <TouchableOpacity onPress={() => handleLinkPress(nextTrip.Accomodation2, 'Accommodation')}>
+              <Text style={styles.hyperlink}>Accommodation 2</Text>
+            </TouchableOpacity>
+            )}
+            {nextTrip.ExtraTravel && (
+              <TouchableOpacity onPress={() => handleLinkPress(nextTrip.ExtraTravel, 'Extra Travel')}>
+                <Text style={styles.hyperlink}>Extra Travel</Text>
+              </TouchableOpacity>
+            )}
+            {nextTrip.ExtraAccomodation && (
+              <TouchableOpacity onPress={() => handleLinkPress(nextTrip.ExtraAccomodation, 'Extra Accommodation')}>
+                <Text style={styles.hyperlink}>Extra Accommodation</Text>
+              </TouchableOpacity>
+            )}
         </View>
       ) : (
         <View style={styles.card}>
-          <Text>No confirmed trips available</Text>
+          <Text>No Current Trips Planned!</Text>
         </View>
       )}
     </View>
