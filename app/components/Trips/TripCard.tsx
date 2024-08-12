@@ -72,7 +72,6 @@ const TripCard: React.FC<TripCardProps> = ({
         </View>
         {isExpanded && (
           <>
-            <Text style={styles.detail}>Status: {status}</Text>
             <Text style={styles.detail}>With: {people}</Text>
             <Text style={styles.detail}>Notes: {notes}</Text>
             <TouchableOpacity onPress={onLogistics}>

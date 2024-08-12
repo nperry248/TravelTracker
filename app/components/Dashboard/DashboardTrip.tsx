@@ -1,11 +1,10 @@
-// app/components/DashboardTrip.tsx
-
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Linking, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Animated } from 'react-native';
 import Colors from '../../../constants/Colors';
 import { getTrips } from '../../database';
 import { Trip } from '../../types';
 import { format } from 'date-fns';
+import Logistics from '../Trips/Logistics'; // Import the Logistics component
 
 interface DashboardTripProps {
   refresh: boolean;
@@ -13,23 +12,21 @@ interface DashboardTripProps {
 
 const DashboardTrip: React.FC<DashboardTripProps> = ({ refresh }) => {
   const [nextTrip, setNextTrip] = useState<Trip | null>(null);
+  const [isViewingLogistics, setIsViewingLogistics] = useState(false);
+  const [fadeAnim] = useState(new Animated.Value(0)); // For fade-in effect
 
   const fetchNextTrip = async () => {
     try {
       const trips: Trip[] = await getTrips();
       const confirmedTrips = trips.filter(trip => trip.status === 'Confirmed');
       const sortedConfirmedTrips = confirmedTrips.sort((a, b) => new Date(a.startdate).getTime() - new Date(b.startdate).getTime());
-      const next = sortedConfirmedTrips[0]
-
+      const next = sortedConfirmedTrips[0];
 
       if (next) {
-        setNextTrip(next)
-      }
-      else {
+        setNextTrip(next);
+      } else {
         setNextTrip(null);
       }
-
-
     } catch (error) {
       console.log('Error fetching trips:', error);
     }
@@ -38,20 +35,28 @@ const DashboardTrip: React.FC<DashboardTripProps> = ({ refresh }) => {
   useEffect(() => {
     fetchNextTrip();
   }, [refresh]);
-  
-
-  const handleLinkPress = (url: string, type: string) => {
-    if (url.trim() === '') {
-      Alert.alert(`${type} Plan`, "No plan yet!");
-    } else {
-      Linking.openURL(url);
-    }
-  };
 
   const formatDate = (dateString: string) => {
     if (!dateString) return 'No date set';
     const date = new Date(dateString);
     return format(date, 'MMMM dd, yyyy');
+  };
+
+  const handleViewLogistics = () => {
+    setIsViewingLogistics(true);
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handleCancelLogistics = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => setIsViewingLogistics(false));
   };
 
   return (
@@ -64,35 +69,35 @@ const DashboardTrip: React.FC<DashboardTripProps> = ({ refresh }) => {
           <Text style={styles.eventTitle}>{nextTrip.title}</Text>
           <Text>Dates: {`${formatDate(nextTrip.startdate)} - ${formatDate(nextTrip.enddate)}`}</Text>
           <Text>People: {nextTrip.people}</Text>
-            <TouchableOpacity onPress={() => handleLinkPress(nextTrip.TravelTo, 'Transportation')}>
-              <Text style={styles.hyperlink}>Travel To</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleLinkPress(nextTrip.TravelBack, 'Transportation')}>
-              <Text style={styles.hyperlink}>Travel Back</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleLinkPress(nextTrip.Accomodation1, 'Accommodation')}>
-              <Text style={styles.hyperlink}>Accommodation</Text>
-            </TouchableOpacity>
-            {nextTrip.Accomodation2 && (
-            <TouchableOpacity onPress={() => handleLinkPress(nextTrip.Accomodation2, 'Accommodation')}>
-              <Text style={styles.hyperlink}>Accommodation 2</Text>
-            </TouchableOpacity>
-            )}
-            {nextTrip.ExtraTravel && (
-              <TouchableOpacity onPress={() => handleLinkPress(nextTrip.ExtraTravel, 'Extra Travel')}>
-                <Text style={styles.hyperlink}>Extra Travel</Text>
-              </TouchableOpacity>
-            )}
-            {nextTrip.ExtraAccomodation && (
-              <TouchableOpacity onPress={() => handleLinkPress(nextTrip.ExtraAccomodation, 'Extra Accommodation')}>
-                <Text style={styles.hyperlink}>Extra Accommodation</Text>
-              </TouchableOpacity>
-            )}
+          <TouchableOpacity onPress={handleViewLogistics}>
+            <Text style={styles.hyperlink}>View Logistics</Text>
+          </TouchableOpacity>
         </View>
       ) : (
         <View style={styles.card}>
           <Text>No Current Trips Planned!</Text>
         </View>
+      )}
+
+      {/* Modal for Logistics */}
+      {isViewingLogistics && (
+        <Modal transparent visible={isViewingLogistics} animationType="fade">
+          <View style={styles.modalBackground}>
+            <Animated.View style={[styles.modalContent, { opacity: fadeAnim }]}>
+              {nextTrip && (
+                <Logistics 
+                  tripTitle={nextTrip.title}
+                  travelTo={nextTrip.TravelTo}
+                  travelBack={nextTrip.TravelBack}
+                  accommodation1={nextTrip.Accomodation1}
+                  accommodation2={nextTrip.Accomodation2}
+                  notes={nextTrip.notes}
+                  onCancel={handleCancelLogistics}
+                />
+              )}
+            </Animated.View>
+          </View>
+        </Modal>
       )}
     </View>
   );
@@ -103,9 +108,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     elevation: 5,
     shadowColor: '#000',
+    shadowOpacity: 0.4,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
+    shadowRadius: 8,
   },
   header: {
     backgroundColor: Colors.darkerBlue,
@@ -119,7 +124,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   card: {
-    backgroundColor: Colors.lighterGrey,
+    backgroundColor: Colors.nearWhite,
     padding: 10,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
@@ -131,10 +136,26 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   hyperlink: {
+    marginTop: 5,
     fontSize: 14,
     color: Colors.darkerBlue,
     textDecorationLine: 'underline',
     marginBottom: 3,
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: Colors.nearWhite,
+    borderRadius: 20,
+    padding: 20,
+    width: '80%',
+    maxHeight: '80%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

@@ -23,11 +23,11 @@ const DashboardClass = () => {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
-    elevation: 5, // Add shadow for Android
-    shadowColor: '#000', // Add shadow for iOS
+    shadowColor: '#000',
+    shadowOpacity: 0.4,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
+    shadowRadius: 8,
+    elevation: 5,
   },
   header: {
     backgroundColor: Colors.darkerBlue,
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   card: {
-    backgroundColor: Colors.lighterGrey,
+    backgroundColor: Colors.nearWhite,
     padding: 10,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,

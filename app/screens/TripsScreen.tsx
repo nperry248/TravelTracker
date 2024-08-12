@@ -17,7 +17,7 @@ const TripsScreen = () => {
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isViewingLogistics, setIsViewingLogistics] = useState(false);
-  const [editTrip, setEditTrip] = useState<Trip | null>(null);
+  const [editTrip, setEditTrip] = useState<Trip | null>(null); 
   const [logisticsTrip, setLogisticsTrip] = useState<Trip | null>(null);
 
   useEffect(() => {
@@ -98,7 +98,7 @@ const TripsScreen = () => {
       </ScrollView>
       {isViewingLogistics && logisticsTrip && (
         <Modal
-          animationType="slide"
+          animationType="fade"
           transparent={true}
           visible={isViewingLogistics}
           onRequestClose={handleCancelLogistics}

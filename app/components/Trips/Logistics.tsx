@@ -54,7 +54,7 @@ const Logistics: React.FC<LogisticsProps> = ({
         </TouchableOpacity>
       </View>
       <View style={styles.linkContainer}>
-        <Text style={styles.label}>Accommodation 1: </Text>
+        <Text style={styles.label}>Accommodations: </Text>
         <TouchableOpacity onPress={() => handleLinkPress(accommodation1, 'Accommodation 1')}>
           <Text style={styles.link}>Confirmation</Text>
         </TouchableOpacity>
