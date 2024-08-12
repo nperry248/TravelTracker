@@ -14,6 +14,7 @@ export default function TabsLayout() {
       <Tabs.Screen name="index" options={{ headerShown: false }} />
       <Tabs.Screen name="trips" options={{ headerShown: false }} />
       <Tabs.Screen name="calendar" options = {{ headerShown: false }} />
+      <Tabs.Screen name='travelChat' options= {{ headerShown: false}} />
     </Tabs>
   );
 }

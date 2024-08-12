@@ -33,8 +33,8 @@ const NavBar = () => {
       <TouchableOpacity onPress={() => router.push('/(tabs)')}>
         <FontAwesome name="home" size={30} paddingBottom={10} color={getIconColor('/(tabs)')} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push('/school')}>
-        <Entypo name="chat" size={24} color={getIconColor('/school')} />
+      <TouchableOpacity onPress={() => router.push('/travelChat')}>
+        <Entypo name="chat" size={24} color={getIconColor('/travelChat')} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => router.push('/media')}>
         <FontAwesome name="photo" size={24} color={getIconColor('/media')} />
