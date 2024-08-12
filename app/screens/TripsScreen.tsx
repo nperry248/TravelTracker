@@ -1,11 +1,11 @@
 // app/screens/TripsScreen.tsx
 
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, ScrollView, TouchableOpacity, Text, Modal } from 'react-native';
 import TripList from '../components/Trips/TripList';
 import AddTrip from '../components/Trips/AddTrip';
 import EditTrip from '../components/Trips/EditTrip';
-import Logistics from '../components/Trips/Logistics'; // Import Logistics component
+import Logistics from '../components/Trips/Logistics';
 import { initializeDatabase, getTrips, addTrip, updateTrip, deleteTrip } from '../database';
 import { Trip } from '../types';
 import Header from '../components/Global/Header';
@@ -16,9 +16,9 @@ const TripsScreen = () => {
   const [trips, setTrips] = useState<Trip[]>([]);
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [isViewingLogistics, setIsViewingLogistics] = useState(false); // New state for viewing logistics
+  const [isViewingLogistics, setIsViewingLogistics] = useState(false);
   const [editTrip, setEditTrip] = useState<Trip | null>(null);
-  const [logisticsTrip, setLogisticsTrip] = useState<Trip | null>(null); // New state for current logistics
+  const [logisticsTrip, setLogisticsTrip] = useState<Trip | null>(null);
 
   useEffect(() => {
     initializeDatabase();
@@ -88,24 +88,34 @@ const TripsScreen = () => {
   return (
     <View style={styles.container}>
       <Header />
-      <ScrollView>
+      <ScrollView style={{ opacity: isViewingLogistics ? 0.3 : 1 }}>
         <Text style={styles.pageTitle}>Your Upcoming Trips</Text>
         {isAdding && <AddTrip onSave={handleSaveNewTrip} onCancel={handleCancelAdd}/>}
         {isEditing && editTrip && <EditTrip trip={editTrip} onUpdate={handleUpdateTrip} onDelete={handleDeleteTrip} onCancel={handleCancelEdit} />}
-        {isViewingLogistics && logisticsTrip && (
-          <Logistics
-            travelTo={logisticsTrip.TravelTo}
-            travelBack={logisticsTrip.TravelBack}
-            accommodation1={logisticsTrip.Accomodation1}
-            accommodation2={logisticsTrip.Accomodation2}
-            notes={logisticsTrip.notes}
-            onCancel={handleCancelLogistics}
-          />
-        )}
         {!isAdding && !isEditing && !isViewingLogistics && (
           <TripList trips={trips} onEdit={handleEditTrip} onLogistics={handleLogistics} />
         )}
       </ScrollView>
+      {isViewingLogistics && logisticsTrip && (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isViewingLogistics}
+          onRequestClose={handleCancelLogistics}
+        >
+          <View style={styles.overlay}>
+            <Logistics
+              tripTitle={logisticsTrip.title}
+              travelTo={logisticsTrip.TravelTo}
+              travelBack={logisticsTrip.TravelBack}
+              accommodation1={logisticsTrip.Accomodation1}
+              accommodation2={logisticsTrip.Accomodation2}
+              notes={logisticsTrip.notes}
+              onCancel={handleCancelLogistics}
+            />
+          </View>
+        </Modal>
+      )}
       {!isAdding && !isEditing && !isViewingLogistics && (
         <TouchableOpacity style={styles.fab} onPress={handleAddTrip}>
           <Text style={styles.fabText}>+</Text>
@@ -151,7 +161,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.darkerBlue,
     margin: 20,
-  }
+  },
+  overlay: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // This darkens the background
+    padding: 20,
+  },
 });
 
 export default TripsScreen;

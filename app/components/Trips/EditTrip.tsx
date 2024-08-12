@@ -1,6 +1,4 @@
-// app/components/EditTrip.tsx
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import Colors from '../../../constants/Colors';
@@ -31,15 +29,31 @@ const EditTrip: React.FC<EditTripProps> = ({ trip, onUpdate, onCancel, onDelete 
   const [endDate, setEndDate] = useState<Date | null>(trip.enddate ? new Date(trip.enddate) : null);
   const [status, setStatus] = useState<'Ideated' | 'Planned' | 'Confirmed'>(trip.status);
   const [people, setPeople] = useState(trip.people);
-  const [travelTo, setTravelTo] = useState('');
-  const [travelBack, setTravelBack] = useState('');
-  const [accommodation1, setAccommodation1] = useState('');
-  const [accommodation2, setAccommodation2] = useState('');
-  const [extraTravel, setExtraTravel] = useState('');
-  const [extraAccommodation, setExtraAccommodation] = useState('');
+  const [travelTo, setTravelTo] = useState(trip.TravelTo); 
+  const [travelBack, setTravelBack] = useState(trip.TravelBack); 
+  const [accommodation1, setAccommodation1] = useState(trip.Accomodation1); 
+  const [accommodation2, setAccommodation2] = useState(trip.Accomodation2);
+  const [extraTravel, setExtraTravel] = useState(trip.ExtraTravel);
+  const [extraAccommodation, setExtraAccommodation] = useState(trip.ExtraAccomodation); 
   const [notes, setNotes] = useState(trip.notes);
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+
+  useEffect(() => {
+    // Update the state when the `trip` prop changes
+    setTitle(trip.title);
+    setStartDate(trip.startdate ? new Date(trip.startdate) : null);
+    setEndDate(trip.enddate ? new Date(trip.enddate) : null);
+    setStatus(trip.status);
+    setPeople(trip.people);
+    setTravelTo(trip.TravelTo);
+    setTravelBack(trip.TravelBack);
+    setAccommodation1(trip.Accomodation1);
+    setAccommodation2(trip.Accomodation2);
+    setExtraTravel(trip.ExtraTravel);
+    setExtraAccommodation(trip.ExtraAccomodation);
+    setNotes(trip.notes);
+  }, [trip]);
 
   const handleUpdate = () => {
     const updatedTrip = {
@@ -49,12 +63,12 @@ const EditTrip: React.FC<EditTripProps> = ({ trip, onUpdate, onCancel, onDelete 
       enddate: endDate ? endDate.toISOString().split('T')[0] : '',
       status,
       people,
-      travelTo,
-      travelBack,
-      accommodation1,
-      accommodation2,
-      extraTravel,
-      extraAccommodation,
+      TravelTo: travelTo,
+      TravelBack: travelBack,
+      Accomodation1: accommodation1,
+      Accomodation2: accommodation2,
+      ExtraTravel: extraTravel,
+      ExtraAccomodation: extraAccommodation,
       notes
     };
     onUpdate(updatedTrip);
