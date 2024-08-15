@@ -5,11 +5,12 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert,
 import Colors from '../../constants/Colors'
 import Header from '../components/Global/Header'
 import NavBar from '../components/Global/NavBar'
+import { GEMINI_API_KEY } from '@env'
 
 
 const { GoogleGenerativeAI } = require("@google/generative-ai")
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API)
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY)
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
 
 const TravelChat = () => {
@@ -20,10 +21,9 @@ const TravelChat = () => {
 
   const handleSend = useCallback(async () => {
     if (inputText.trim() !== '') {
-      // Add the user's message to the chat history
       const newChatHistory = [...chatHistory, { user: inputText, bot: '...' }];
       setChatHistory(newChatHistory);
-      const userInput = inputText; // Save the user input to be displayed with the bot response
+      const userInput = inputText; 
       setInputText('');
 
       try {
@@ -32,7 +32,7 @@ const TravelChat = () => {
           Everything before this is the input. Please respond with a concise answer, preferably 4-5 bullet points or a few sentences, focused on the following interest: ${interest}.
           You are a bot for study abroad experiences, so tailor your response to an age group of 18-25 years old in Europe`
           );
-        const responseText = result.response.text(); // Accessing the text from the response
+        const responseText = result.response.text();
         responeText = responseText
 
         setChatHistory(prevHistory => {
@@ -53,8 +53,8 @@ const TravelChat = () => {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    setChatHistory([]); // Clear the chat history
-    setInterest(''); // Reset the interest input
+    setChatHistory([]);
+    setInterest('');
     setRefreshing(false);
   }, []);
 
