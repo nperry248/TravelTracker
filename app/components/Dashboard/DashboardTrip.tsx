@@ -106,11 +106,11 @@ const DashboardTrip: React.FC<DashboardTripProps> = ({ refresh }) => {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
-    elevation: 5,
     shadowColor: '#000',
     shadowOpacity: 0.4,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
+    elevation: 5,
   },
   header: {
     backgroundColor: Colors.darkerBlue,
@@ -128,6 +128,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
+    borderColor: Colors.darkerBlue,
+    borderWidth: 1.25
+
   },
   eventTitle: {
     fontSize: 16,

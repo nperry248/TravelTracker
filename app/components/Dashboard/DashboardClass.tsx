@@ -45,6 +45,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
+    borderColor: Colors.darkerBlue,
+    borderWidth: 1.25
   },
   classTitle: {
     fontSize: 16,

@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
-    borderColor: Colors.lighterGrey,
-    borderWidth: 1,
+    borderColor: Colors.darkerBlue,
+    borderWidth: 1.25
   },
   assignmentTitle: {
     fontSize: 16,
