@@ -22,8 +22,18 @@ export const initializeDatabase = () => {
       notes TEXT
     );`
   );
+
+  db.execAsync(
+    `CREATE TABLE IF NOT EXISTS chat_logs (
+      log_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      query_name TEXT,
+      query_response TEXT
+    );`
+  )
 };
 
+
+// Trip Methods
 export const addTrip = async (trip) => {
   const { title, startdate, enddate, status, people, TravelTo, TravelBack, Accomodation1, Accomodation2, ExtraTravel, ExtraAccomodation, notes } = trip;
   const result = await db.runAsync(
@@ -54,6 +64,25 @@ export const deleteTrip = async (id) => {
 
 export const getTrips = async () => {
   const result = await db.getAllAsync(`SELECT * FROM trips;`);
+  return result;
+};
+
+
+// TravelChat Methods
+
+
+// Add a new chat log
+export const addChatLog = async (queryName, queryResponse) => {
+  const result = await db.runAsync(
+    `INSERT INTO chat_logs (query_name, query_response) VALUES (?, ?);`,
+    queryName, queryResponse
+  );
+  return result;
+};
+
+// Get all chat logs
+export const getChatLogs = async () => {
+  const result = await db.getAllAsync(`SELECT * FROM chat_logs;`);
   return result;
 };
 
