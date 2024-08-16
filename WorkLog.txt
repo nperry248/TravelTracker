@@ -1,0 +1,11 @@
+Log for changes/to-dos/days worked
+
+Everything Before 9/15/24: A lot, functionality in all pages but media, design needs lots of work, little things to clean up and add too
+
+09/15/24: 
+    - Initial Travel Chat log functionality (new table in database), borders on dashboard
+    - Next: UI for travel chat, add delete, implement chat log in dashboard instead of school, make Quicksand font global
+    - Far Next: Get Media Page going, clean up all UI/UX, add all necessary functionalities, host
+
+
+
