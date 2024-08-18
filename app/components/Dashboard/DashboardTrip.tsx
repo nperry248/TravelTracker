@@ -10,14 +10,6 @@ interface DashboardTripProps {
   refresh: boolean;
 }
 
-// Function to check if the end date has passed
-const isTripEnded = (enddate: string) => {
-  const endDate = new Date(enddate);
-  const today = new Date();
-  return isBefore(endDate, today);
-};
-
-
 const DashboardTrip: React.FC<DashboardTripProps> = ({ refresh }) => {
   const [nextTrip, setNextTrip] = useState<Trip | null>(null);
   const [isViewingLogistics, setIsViewingLogistics] = useState(false);
