@@ -26,9 +26,20 @@ const TripsScreen = () => {
   }, []);
 
   const fetchTrips = async () => {
-    const trips = await getTrips();
-    const sortedTrips = trips.sort((a, b) => new Date(a.startdate).getTime() - new Date(b.startdate).getTime());
-    setTrips(sortedTrips);
+    try {
+      const allTrips: Trip[] = await getTrips();
+
+      // Sort the trips, pushing those without dates to the bottom
+      const sortedTrips = allTrips.sort((a, b) => {
+        const dateA = a.startdate ? new Date(a.startdate).getTime() : new Date('3000-01-01').getTime();
+        const dateB = b.startdate ? new Date(b.startdate).getTime() : new Date('3000-01-01').getTime();
+        return dateA - dateB;
+      });
+
+      setTrips(sortedTrips);
+    } catch (error) {
+      console.error('Error fetching trips:', error);
+    }
   };
 
   const handleAddTrip = () => {

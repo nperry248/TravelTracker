@@ -3,12 +3,20 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal, Animated } from 'react
 import Colors from '../../../constants/Colors';
 import { getTrips } from '../../database';
 import { Trip } from '../../types';
-import { format } from 'date-fns';
+import { format, isBefore, isAfter } from 'date-fns';
 import Logistics from '../Trips/Logistics'; // Import the Logistics component
 
 interface DashboardTripProps {
   refresh: boolean;
 }
+
+// Function to check if the end date has passed
+const isTripEnded = (enddate: string) => {
+  const endDate = new Date(enddate);
+  const today = new Date();
+  return isBefore(endDate, today);
+};
+
 
 const DashboardTrip: React.FC<DashboardTripProps> = ({ refresh }) => {
   const [nextTrip, setNextTrip] = useState<Trip | null>(null);
@@ -19,14 +27,11 @@ const DashboardTrip: React.FC<DashboardTripProps> = ({ refresh }) => {
     try {
       const trips: Trip[] = await getTrips();
       const confirmedTrips = trips.filter(trip => trip.status === 'Confirmed');
-      const sortedConfirmedTrips = confirmedTrips.sort((a, b) => new Date(a.startdate).getTime() - new Date(b.startdate).getTime());
-      const next = sortedConfirmedTrips[0];
+      const upcomingTrips = confirmedTrips.filter(trip => isAfter(new Date(trip.enddate), new Date()));
+      const sortedUpcomingTrips = upcomingTrips.sort((a, b) => new Date(a.startdate).getTime() - new Date(b.startdate).getTime());
+      const next = sortedUpcomingTrips[0];
+      setNextTrip(next)
 
-      if (next) {
-        setNextTrip(next);
-      } else {
-        setNextTrip(null);
-      }
     } catch (error) {
       console.log('Error fetching trips:', error);
     }

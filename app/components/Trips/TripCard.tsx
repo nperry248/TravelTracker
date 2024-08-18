@@ -1,10 +1,9 @@
-// app/components/TripCard.tsx
-
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Linking, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import Colors from '../../../constants/Colors';
-import { format } from 'date-fns';
+import { format, isBefore } from 'date-fns';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 interface TripCardProps {
   title: string;
@@ -14,7 +13,7 @@ interface TripCardProps {
   people: string;
   notes: string;
   onEdit: () => void;
-  onLogistics: () => void; // Add this prop
+  onLogistics: () => void;
 }
 
 const getStatusColor = (status: string) => {
@@ -36,6 +35,13 @@ const formatDate = (dateString: string) => {
   return format(date, 'MMMM dd, yyyy');
 };
 
+// Function to check if the end date has passed
+const isTripEnded = (enddate: string) => {
+  const endDate = new Date(enddate);
+  const today = new Date();
+  return isBefore(endDate, today);
+};
+
 const TripCard: React.FC<TripCardProps> = ({
   title,
   startdate,
@@ -44,13 +50,18 @@ const TripCard: React.FC<TripCardProps> = ({
   people,
   notes,
   onEdit,
-  onLogistics, // Add this prop
+  onLogistics,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  // Determine the background color based on whether the trip has ended
+  const backgroundColor = isTripEnded(enddate) ? Colors.lighterGrey : Colors.nearWhite;
+  const borderLeftColor = isTripEnded(enddate) ? Colors.darkerGrey : getStatusColor(status);
+  
+
   return (
     <TouchableOpacity onPress={() => setIsExpanded(!isExpanded)}>
-      <View style={[styles.card, { borderLeftColor: getStatusColor(status) }]}>
+      <View style={[styles.card, { borderLeftColor, backgroundColor }]}>
         <View style={styles.header}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>{title}</Text>
@@ -88,7 +99,6 @@ const styles = StyleSheet.create({
   card: {
     padding: 20,
     marginVertical: 10,
-    backgroundColor: Colors.nearWhite,
     borderRadius: 8,
     borderLeftWidth: 10,
     shadowColor: '#000',
