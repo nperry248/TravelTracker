@@ -212,6 +212,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.darkerBlue,
     borderRadius: 5,
     padding: 5,
+    width: 25
   },
   saveButtonText: {
     color: 'white',
