@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
     color: Colors.darkerBlue,
     marginTop: 20,
     marginLeft: 20,
+    fontFamily: 'futura'
   },
   description: {
     marginTop: 10,
@@ -171,6 +172,7 @@ const styles = StyleSheet.create({
     color: Colors.darkerGrey,
     marginHorizontal: 20,
     marginBottom: 20,
+    fontFamily: 'futura'
   },
   interestContainer: {
     paddingHorizontal: 20,
@@ -180,6 +182,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.darkerBlue,
     marginBottom: 5,
+    fontFamily: 'futura'
   },
   interestInput: {
     padding: 10,
@@ -204,11 +207,13 @@ const styles = StyleSheet.create({
   userMessage: {
     fontSize: 16,
     color: Colors.darkerBlue,
+    fontFamily: 'futura'
   },
   botMessage: {
     fontSize: 16,
     color: Colors.darkerGrey,
     marginTop: 5,
+    fontFamily: 'futura'
   },
   saveButton: {
     backgroundColor: Colors.darkerBlue,
@@ -222,6 +227,7 @@ const styles = StyleSheet.create({
   saveButtonText: {
     color: 'white',
     fontSize: 16,
+    fontFamily: 'futura'
   },
   inputContainer: {
     flexDirection: 'row',
@@ -249,6 +255,7 @@ const styles = StyleSheet.create({
   sendButtonText: {
     color: 'white',
     fontSize: 16,
+    fontFamily: 'futura'
   },
   logButton: {
     position: 'absolute',
@@ -262,6 +269,7 @@ const styles = StyleSheet.create({
   logButtonText: {
     color: 'white',
     fontSize: 16,
+    fontFamily: 'futura'
   },
 });
 

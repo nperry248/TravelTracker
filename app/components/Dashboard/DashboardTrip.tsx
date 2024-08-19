@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
     elevation: 5,
+    fontFamily: '../../../assest/fonts/Futura/FuturaBookFont'
   },
   header: {
     backgroundColor: Colors.darkerBlue,
@@ -119,6 +120,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
+    fontFamily: 'futura'
   },
   card: {
     backgroundColor: Colors.nearWhite,
@@ -134,6 +136,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.darkerBlue,
     marginBottom: 5,
+    fontFamily: 'Futura'
   },
   hyperlink: {
     marginTop: 5,

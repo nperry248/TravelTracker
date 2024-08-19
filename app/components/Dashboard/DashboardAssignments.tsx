@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
+    fontFamily: 'futura'
   },
   card: {
     backgroundColor: Colors.nearWhite,
@@ -81,10 +82,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.darkerBlue,
     marginBottom: 10,
+    fontFamily: 'futura'
   },
   note: {
     fontSize: 14,
     marginBottom: 5,
+    fontFamily: 'futura'
   },
   input: {
     backgroundColor: Colors.nearWhite,
@@ -92,6 +95,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 150,  // Increase the height of the input box
     textAlignVertical: 'top',
+    fontFamily: 'futura'
   },
 });
 

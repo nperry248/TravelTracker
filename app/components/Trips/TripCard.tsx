@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: Colors.darkerBlue,
+    fontFamily: 'futura'
   },
   detail: {
     fontSize: 14,

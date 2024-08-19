@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
+    fontFamily: 'futura'
   },
   card: {
     backgroundColor: Colors.nearWhite,
@@ -53,6 +54,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.darkerBlue,
     marginBottom: 5,
+    fontFamily: 'futura'
   },
 });
 

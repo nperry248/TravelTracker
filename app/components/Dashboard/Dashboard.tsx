@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.darkerBlue,
     marginBottom: 20,
+    fontFamily: 'futura'
   },
 });
 

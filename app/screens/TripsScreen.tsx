@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.darkerBlue,
     margin: 20,
+    fontFamily: 'futura'
   },
   overlay: {
     flex: 1,

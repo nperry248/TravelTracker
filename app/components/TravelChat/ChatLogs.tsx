@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     color: Colors.darkerBlue,
+    fontFamily: 'futura'
   },
   logsContainer: {
     width: '100%',
@@ -107,10 +108,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: Colors.darkerBlue,
+    fontFamily: 'futura'
   },
   queryResponse: {
     fontSize: 14,
     color: Colors.darkerGrey,
+    fontFamily: 'futura'
   },
   deleteButton: {
     backgroundColor: Colors.red,
@@ -123,6 +126,7 @@ const styles = StyleSheet.create({
   deleteButtonText: {
     color: 'white',
     fontSize: 16,
+    fontFamily: 'futura'
   },
   closeButton: {
     marginTop: 20,
@@ -135,6 +139,7 @@ const styles = StyleSheet.create({
   closeButtonText: {
     color: 'white',
     fontSize: 16,
+    fontFamily: 'futura'
   },
 });
 

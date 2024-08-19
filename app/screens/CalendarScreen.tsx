@@ -190,6 +190,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: Colors.darkerBlue,
     paddingHorizontal: 20,
+    fontFamily: 'futura'
   },
   calendarContainer: {
     paddingHorizontal: 20,

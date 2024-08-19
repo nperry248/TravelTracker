@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.darkerBlue,
     marginBottom: 5,
+    fontFamily: 'futura'
   },
   tripInfo: {
     fontSize: 14,

@@ -1,7 +1,5 @@
-// app/components/NavBar.tsx
-
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import Entypo from '@expo/vector-icons/Entypo';
 import { useRouter, usePathname } from 'expo-router';
@@ -24,20 +22,25 @@ const NavBar = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.push('/calendar')}>
+      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/calendar')}>
         <FontAwesome name="calendar" size={24} color={getIconColor('/calendar')} />
+        <Text style={styles.iconText}>Calendar</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push('/trips')}>
+      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/trips')}>
         <FontAwesome name="map" size={24} color={getIconColor('/trips')} />
+        <Text style={styles.iconText}>Trips</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push('/(tabs)')}>
-        <FontAwesome name="home" size={30} paddingBottom={10} color={getIconColor('/(tabs)')} />
+      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/(tabs)')}>
+        <FontAwesome name="home" size={24} color={getIconColor('/(tabs)')} />
+        <Text style={styles.iconText}>Home</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push('/travelChat')}>
+      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/travelChat')}>
         <Entypo name="chat" size={24} color={getIconColor('/travelChat')} />
+        <Text style={styles.iconText}>Chat</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push('/media')}>
+      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/media')}>
         <FontAwesome name="photo" size={24} color={getIconColor('/media')} />
+        <Text style={styles.iconText}>Media</Text>
       </TouchableOpacity>
     </View>
   );
@@ -55,6 +58,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
+  },
+  iconContainer: {
+    alignItems: 'center',
+  },
+
+  iconText: {
+    fontSize: 10,
+    color: Colors.darkerGrey,
+    marginTop: 2,
   },
 });
 

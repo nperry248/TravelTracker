@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: Colors.darkerBlue,
+    fontFamily: 'futura'
   },
   avatar: {
     width: 40,
