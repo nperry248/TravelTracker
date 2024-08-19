@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import Colors from '../../../constants/Colors';
-import { getChatLogs, initializeDatabase } from '../../database';  // Import the function to fetch logs from the database
+import { getChatLogs, deleteChatLog, initializeDatabase } from '../../database';  // Import the functions to fetch and delete logs from the database
 
 // Define the types for the props and state
 interface ChatLog {
@@ -31,6 +31,15 @@ const ChatLogs: React.FC<ChatLogsProps> = ({ onClose }) => {
     fetchLogs();
   }, []);
 
+  const handleDelete = async (logId: number) => {
+    try {
+      await deleteChatLog(logId);
+      setLogs(prevLogs => prevLogs.filter(log => log.log_id !== logId));
+    } catch (error) {
+      console.error('Error deleting chat log:', error);
+    }
+  };
+
   return (
     <View style={styles.modalContainer}>
       <View style={styles.logModal}>
@@ -38,7 +47,15 @@ const ChatLogs: React.FC<ChatLogsProps> = ({ onClose }) => {
         <ScrollView style={styles.logsContainer}>
           {logs.map((log) => (
             <View key={log.log_id} style={styles.logItem}>
-              <Text style={styles.queryName}>{log.query_name}</Text>
+              <View style={styles.logHeader}>
+                <Text style={styles.queryName}>{log.query_name}</Text>
+                <TouchableOpacity 
+                  style={styles.deleteButton} 
+                  onPress={() => handleDelete(log.log_id)}
+                >
+                  <Text style={styles.deleteButtonText}>-</Text>
+                </TouchableOpacity>
+              </View>
               <Text style={styles.queryResponse}>{log.query_response}</Text>
             </View>
           ))}
@@ -57,7 +74,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
-
   },
   logModal: {
     width: '80%',
@@ -74,12 +90,18 @@ const styles = StyleSheet.create({
   },
   logsContainer: {
     width: '100%',
-    height: '75%'
+    height: '75%',
   },
   logItem: {
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: Colors.lighterGrey,
+  },
+  logHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 5, // Space between the header and the response text
   },
   queryName: {
     fontSize: 16,
@@ -89,6 +111,18 @@ const styles = StyleSheet.create({
   queryResponse: {
     fontSize: 14,
     color: Colors.darkerGrey,
+  },
+  deleteButton: {
+    backgroundColor: Colors.red,
+    borderRadius: 5,
+    paddingHorizontal: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 22,
+  },
+  deleteButtonText: {
+    color: 'white',
+    fontSize: 16,
   },
   closeButton: {
     marginTop: 20,

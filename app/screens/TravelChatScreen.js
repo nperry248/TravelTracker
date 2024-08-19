@@ -3,14 +3,12 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Modal,
 import Colors from '../../constants/Colors';
 import Header from '../components/Global/Header';
 import NavBar from '../components/Global/NavBar';
-import { GEMINI_API_KEY } from '@env';
 import ChatLogs from '../components/TravelChat/ChatLogs'; 
 import { addChatLog } from '../database';
 
-
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+const genAI = new GoogleGenerativeAI(process.env.EXPO_PUBLIC_GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const TravelChat = () => {
@@ -59,7 +57,6 @@ const TravelChat = () => {
 
   const saveChatLog = async (query, response) => {
     try {
-      // Assuming you have a function to save chat logs
       await addChatLog(query, response);
     } catch (error) {
       console.error('Error saving chat log:', error);
@@ -102,14 +99,16 @@ const TravelChat = () => {
         <View style={styles.chatContainer}>
           {chatHistory.map((chat, index) => (
             <View key={index} style={styles.messageContainer}>
-              <Text style={styles.userMessage}>You: {chat.user}</Text>
+              <View style={styles.userMessageContainer}>
+                <Text style={styles.userMessage}>You: {chat.user}</Text>
+                <TouchableOpacity
+                  onPress={() => saveChatLog(chat.user, chat.bot)}
+                  style={styles.saveButton}
+                >
+                  <Text style={styles.saveButtonText}>+</Text>
+                </TouchableOpacity>
+              </View>
               <Text style={styles.botMessage}>Travel Chat: {chat.bot}</Text>
-              <TouchableOpacity
-                onPress={() => saveChatLog(chat.user, chat.bot)}
-                style={styles.saveButton}
-              >
-                <Text style={styles.saveButtonText}>+</Text>
-              </TouchableOpacity>
             </View>
           ))}
         </View>
@@ -197,22 +196,28 @@ const styles = StyleSheet.create({
   messageContainer: {
     marginVertical: 10,
   },
+  userMessageContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   userMessage: {
     fontSize: 16,
     color: Colors.darkerBlue,
-    alignSelf: 'flex-start',
   },
   botMessage: {
     fontSize: 16,
     color: Colors.darkerGrey,
-    alignSelf: 'flex-end',
+    marginTop: 5,
   },
   saveButton: {
-    marginLeft: 10,
     backgroundColor: Colors.darkerBlue,
     borderRadius: 5,
-    padding: 5,
-    width: 25
+    paddingHorizontal: 5,
+    paddingBottom: 3,
+    paddingVertical: 0,
+    marginLeft: 10,
+    marginTop: 5
   },
   saveButtonText: {
     color: 'white',

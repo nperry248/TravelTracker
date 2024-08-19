@@ -71,7 +71,6 @@ export const getTrips = async () => {
 // TravelChat Methods
 
 
-// Add a new chat log
 export const addChatLog = async (queryName, queryResponse) => {
   const result = await db.runAsync(
     `INSERT INTO chat_logs (query_name, query_response) VALUES (?, ?);`,
@@ -80,10 +79,17 @@ export const addChatLog = async (queryName, queryResponse) => {
   return result;
 };
 
-// Get all chat logs
 export const getChatLogs = async () => {
   const result = await db.getAllAsync(`SELECT * FROM chat_logs;`);
   return result;
 };
+
+export const deleteChatLog = async (logId) => {
+  const result = await db.runAsync(
+    `DELETE FROM chat_logs WHERE log_id = ?;`,
+    logId
+  );
+  return result
+}
 
 export default db;
