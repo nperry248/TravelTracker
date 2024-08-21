@@ -7,7 +7,7 @@ import Header from '../components/Global/Header';
 import NavBar from '../components/Global/NavBar';
 import { format } from 'date-fns';
 
-interface Trip {
+interface Trip { 
   id: number;
   title: string;
   startdate: string;
