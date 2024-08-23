@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import Colors from '../../../constants/Colors';
 import { format, isBefore } from 'date-fns';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 interface TripCardProps {
   title: string;

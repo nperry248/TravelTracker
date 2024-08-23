@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal, Animated } from 'react
 import Colors from '../../../constants/Colors';
 import { getTrips } from '../../database';
 import { Trip } from '../../types';
-import { format, isBefore, isAfter } from 'date-fns';
+import { format, isAfter } from 'date-fns';
 import Logistics from '../Trips/Logistics'; // Import the Logistics component
 
 interface DashboardTripProps {

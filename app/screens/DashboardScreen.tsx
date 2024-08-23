@@ -1,7 +1,7 @@
 // app/screens/DashboardScreen.tsx
 
 import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import NavBar from '../components/Global/NavBar';
 import Header from '../components/Global/Header';
 import Dashboard from '../components/Dashboard/Dashboard';
